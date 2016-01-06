@@ -35,12 +35,10 @@
 
 ;;; Evaluate the test form.  If it returns truthy, return `(#t ,form)
 ;;; where [form] is the original test form. Otherwise return `(#f ,form).
-(define-syntax test-form
-  (syntax-rules ()
-    ((test-form body)
-     (if body
-         (list #t 'body)
-         (list #f 'body)))))
+(define-syntax-rule (test-form body)
+  (if body
+      (list #t 'body)
+      (list #f 'body)))
 
 ;;; Do the same thing as [and], but don't short circuit.
 (define (and-strict . bools)
@@ -57,10 +55,9 @@
       (printf "~a~a~a~%~%" ansi-bright-red "FAILED" ansi-reset)))
 
 ;;; A paperthin wrapper around test-progn for ANSI colors.
-(define-syntax test-begin
-  (syntax-rules ()
-    ((test-begin forms ...)
-     (print-result-colorful (test-progn forms ...)))))
+(define-syntax-rule (test-begin forms ...)
+  (print-result-colorful
+   (test-progn forms ...)))
 
 ;;; Evaluate multiple forms and report if any of them fail.
 ;;; Prints out all of the forms that fail.
