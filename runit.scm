@@ -55,9 +55,11 @@
       (printf "~a~a~a~%~%" ansi-bright-red "FAILED" ansi-reset)))
 
 ;;; A paperthin wrapper around test-progn for ANSI colors.
-(define-syntax-rule (test-begin forms ...)
-  (print-result-colorful
-   (test-progn forms ...)))
+(define-syntax-rule (test-begin name forms ...)
+  (begin
+    (printf "Begin testing ~a.~%" name)
+    (print-result-colorful
+     (test-progn name forms ...))))
 
 ;;; Evaluate multiple forms and report if any of them fail.
 ;;; Prints out all of the forms that fail.
