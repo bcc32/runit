@@ -61,7 +61,6 @@
 
 ;;; Evaluate multiple forms and report if any of them fail.
 ;;; Prints out all of the forms that fail.
-;;; FIXME make hygenic
 (define-syntax test-progn
   (syntax-rules ()
     ((test-progn test-name)
