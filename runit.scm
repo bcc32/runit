@@ -24,9 +24,8 @@
 
 (module runit racket
 
-(provide test-begin
-         test-progn
-         float-=)
+(provide test-begin test-progn
+         float-= assert-error)
 
 ;;; ANSI Escape Codes for colors
 (define ansi-bright-red "\x1b[31;1m")
@@ -93,5 +92,13 @@
 (define (float-= x y)
   (< (abs (- x y))
      epsilon))
+
+;;; Return true iff evaluating the [body] produces an error.
+(define-syntax assert-error
+  (syntax-rules (exn-thrown)
+    ((assert-error body ...)
+     (with-handlers ((exn:fail? (lambda (exn) #t)))
+       body ...
+       #f))))
 
 )
